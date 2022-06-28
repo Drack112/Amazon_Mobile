@@ -6,13 +6,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: Scaffold(
+      title: "Amazon Mobile",
+      theme: ThemeData(primarySwatch: Colors.blue),
+      home: const Scaffold(
         body: Center(
-          child: Text("Hello Flutter App!"),
+          child: Text("Flutter Demo App"),
         ),
       ),
     );
