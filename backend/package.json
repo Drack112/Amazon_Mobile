@@ -1,0 +1,12 @@
+{
+  "name": "amazon_flutter_backend",
+  "version": "1.0.0",
+  "description": "O backend do aplicativo que simula a Amazon",
+  "main": "src/app.ts",
+  "author": "Drack112",
+  "license": "MIT",
+  "private": false,
+  "devDependencies": {
+    "typescript": "^4.7.4"
+  }
+}
