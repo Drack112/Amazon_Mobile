@@ -3,6 +3,7 @@ import cors from "cors";
 import express_pino from "express-pino-logger";
 import { logger } from "./utils/logger";
 import "./database/connection";
+import routes from "./routes";
 
 const loggerMiddleware = express_pino({
 	logger: logger,
@@ -22,5 +23,6 @@ const server = express();
 server.use(express.json());
 server.use(cors());
 server.use(loggerMiddleware);
+server.use(routes);
 
 export { server };
