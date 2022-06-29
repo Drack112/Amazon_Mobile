@@ -49,10 +49,7 @@ class UserController {
 
 			const token = jwt.sign({ id: user._id }, "passwordKey");
 
-			return res.status(200).json({
-				token,
-				user,
-			});
+			return res.status(200).json({ token, ...user.toObject() });
 		} catch (error: any) {
 			return res.status(500).json({ error: error.message });
 		}

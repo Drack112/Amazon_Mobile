@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 
 import 'package:amazon_flutter/constants/error_handling.dart';
@@ -69,7 +71,6 @@ class AuthService {
         },
       );
 
-      print(res.body);
       httpErrorHandler(
         response: res,
         context: context,
