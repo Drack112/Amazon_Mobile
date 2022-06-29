@@ -1,12 +1,38 @@
 import 'package:amazon_flutter/features/screens/auth_screen.dart';
+import 'package:amazon_flutter/features/services/auth_service.dart';
+import 'package:amazon_flutter/providers/user_provider.dart';
 import 'package:amazon_flutter/router.dart';
 import 'package:flutter/material.dart';
 import 'package:amazon_flutter/constants/global_variables.dart';
+import 'package:provider/provider.dart';
 
-void main() => runApp(const MyApp());
+void main() {
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => UserProvider(),
+        ),
+      ],
+      child: const MyApp(),
+    ),
+  );
+}
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  final AuthService authService = AuthService();
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
