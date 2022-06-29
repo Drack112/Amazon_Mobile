@@ -25,7 +25,11 @@ const loggerMiddleware = express_pino({
 const server = express();
 
 server.use(express.json());
-server.use(cors());
+server.use(
+	cors({
+		origin: ["*"],
+	}),
+);
 server.use(loggerMiddleware);
 server.use(routes);
 

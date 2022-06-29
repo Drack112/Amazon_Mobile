@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 import mongoose, { Schema, Model, Document } from "mongoose";
 
 type UserDocument = Document & {
@@ -9,17 +10,26 @@ type UserDocument = Document & {
 const userSchema = new Schema(
 	{
 		name: {
-			type: Schema.Types.String,
 			required: true,
+			type: Schema.Types.String,
+			trim: true,
 		},
 		email: {
-			type: Schema.Types.String,
 			required: true,
-			unique: true,
+			type: Schema.Types.String,
+			trim: true,
+			validate: {
+				validator: (value: string) => {
+					const re =
+						/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+					return value.match(re);
+				},
+				message: "Please enter a valid email address",
+			},
 		},
 		password: {
-			type: Schema.Types.String,
 			required: true,
+			type: Schema.Types.String,
 		},
 		address: {
 			type: Schema.Types.String,
