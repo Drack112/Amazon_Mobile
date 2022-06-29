@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import express_pino from "express-pino-logger";
 import { logger } from "./utils/logger";
+import "./database/connection";
 
 const loggerMiddleware = express_pino({
 	logger: logger,
