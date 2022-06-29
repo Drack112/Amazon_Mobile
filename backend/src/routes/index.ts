@@ -11,6 +11,7 @@ routes.get("/api", (request: Request, response: Response) => {
 
 routes.post("/api/users/signup", userController.createUser);
 routes.post("/api/users/login", userController.login);
+routes.post("/api/users/tokenIsValid", userController.tokeIsValid);
 routes.get("/api/users", userController.getUsers);
 
 export default routes;

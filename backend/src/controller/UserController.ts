@@ -49,9 +49,27 @@ class UserController {
         return res.status(400).json({ msg: "Incorrect Password" });
       }
 
-      const token = jwt.sign({ id: user._id }, "passwordKey");
+      const token = jwt.sign({ id: user._id }, "passwordKey", {
+        expiresIn: "1h",
+      });
 
       return res.status(200).json({ token, ...user.toObject() });
+    } catch (error: any) {
+      return res.status(500).json({ error: error.message });
+    }
+  }
+
+  async tokeIsValid(req: Request, res: Response) {
+    try {
+      const token = req.header("x-auth-token");
+      if (!token) return res.json(false);
+
+      const verified = jwt.verify(token, "passwordKey");
+      if (!verified) return res.json(false);
+
+      const user = await User.findOne({ verified });
+      console.log(user);
+      if (!user) return res.json(false);
     } catch (error: any) {
       return res.status(500).json({ error: error.message });
     }
