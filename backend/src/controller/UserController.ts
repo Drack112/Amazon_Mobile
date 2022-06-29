@@ -1,16 +1,11 @@
 import { Request, Response } from "express";
-import { User, UserInput } from "../models/user";
-import crypto from "crypto";
+import { User } from "../models/user";
+import * as bcrypt from "bcrypt";
 
 class UserController {
 	async createUser(req: Request, res: Response) {
 		const { name, email, password } = req.body;
-
-		const hashPassword = (password: string) => {
-			const salt = crypto.randomBytes(16);
-
-			return crypto.pbkdf2Sync(password, salt, 100, 64, "sha512").toString();
-		};
+		const user = new User({ name, email, password });
 
 		if (!name || !email || !password) {
 			return res.status(422).json({
@@ -18,15 +13,12 @@ class UserController {
 			});
 		}
 
-		const userInput: UserInput = {
-			name,
-			email,
-			password: hashPassword(password),
-		};
+		const salt = await bcrypt.genSalt(10);
+		user.password = await bcrypt.hash(password, salt);
 
-		const userCreated = await User.create(userInput);
+		await user.save();
 
-		return res.status(201).json(userCreated);
+		return res.status(201).json(user);
 	}
 
 	async getUsers(req: Request, res: Response) {

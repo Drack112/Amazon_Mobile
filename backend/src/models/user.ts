@@ -6,12 +6,6 @@ type UserDocument = Document & {
 	password: string;
 };
 
-type UserInput = {
-	name: UserDocument["name"];
-	email: UserDocument["email"];
-	password: UserDocument["password"];
-};
-
 const userSchema = new Schema(
 	{
 		name: {
@@ -47,4 +41,4 @@ const User: Model<UserDocument> = mongoose.model<UserDocument>(
 	userSchema,
 );
 
-export { User, UserInput, UserDocument };
+export { User };
