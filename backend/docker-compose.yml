@@ -1,28 +1,35 @@
 version: "3"
 
 services:
-  db:
-    image: mongo:latest
-    container_name: mongo-server
-    environment:
-      MONGO_INITDB_DATABASE: ${MONGO_DB}
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
-    ports:
-      - 27017:27017
-    networks:
-      - mongo-compose-network
+ db:
+  image: mongo:latest
+  container_name: mongo-server
+  environment:
+   MONGO_INITDB_DATABASE: ${MONGO_DB}
+   MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
+   MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+  ports:
+   - 27017:27017
+  networks:
+   - mongo-compose-network
+  env_file:
+   - ./.env
 
-  app:
-    build: .
-    container_name: backend-express
-    depends_on:
-      - db
-    ports:
-      - 3000:3000
-    networks:
-      - mongo-compose-network
+ app:
+  build: .
+  container_name: backend-express
+  volumes:
+   - .:/home/node/app
+   - ./node_modules:/home/node/app/node_modules
+  depends_on:
+   - db
+  ports:
+   - 3000:3000
+  networks:
+   - mongo-compose-network
+  env_file:
+   - ./.env
 
 networks:
-  mongo-compose-network:
-    driver: bridge
+ mongo-compose-network:
+  driver: bridge
