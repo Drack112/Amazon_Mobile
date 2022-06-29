@@ -12,10 +12,14 @@ const loggerMiddleware = express_pino({
 		req: (req) => ({
 			method: req.method,
 			url: req.url,
-			user: req.raw.user,
+			body: req.raw.body,
+			query: req.query,
+			params: req.params,
+			headers: req.headers,
 			host: req.headers.host,
 		}),
 	},
+	enabled: true,
 });
 
 const server = express();
