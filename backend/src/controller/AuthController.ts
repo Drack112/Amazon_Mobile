@@ -3,7 +3,7 @@ import { User } from "../models/user";
 import * as bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-class UserController {
+class AuthController {
   async createUser(req: Request, res: Response) {
     try {
       const { name, email, password } = req.body;
