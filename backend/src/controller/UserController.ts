@@ -62,14 +62,14 @@ class UserController {
   async tokeIsValid(req: Request, res: Response) {
     try {
       const token = req.header("x-auth-token");
-      if (!token) return res.json(false);
+      if (!token) return res.status(401).json(false);
 
       const verified = jwt.verify(token, "passwordKey");
-      if (!verified) return res.json(false);
+      if (!verified) return res.status(401).json(false);
 
       const user = await User.findOne({ verified });
-      console.log(user);
-      if (!user) return res.json(false);
+      if (!user) return res.status(401).json(false);
+      return res.status(200).json(true);
     } catch (error: any) {
       return res.status(500).json({ error: error.message });
     }
