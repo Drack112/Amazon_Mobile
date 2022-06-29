@@ -6,7 +6,7 @@ const routes = Router();
 const userController = new UserController();
 
 routes.get("/api", (request: Request, response: Response) => {
-	return response.status(200).json({ message: "Hello Dev" });
+  return response.status(200).json({ message: "Hello Dev" });
 });
 
 routes.post("/api/users/signup", userController.createUser);

@@ -6,29 +6,29 @@ import "./database/connection";
 import routes from "./routes";
 
 const loggerMiddleware = express_pino({
-	logger: logger,
-	autoLogging: true,
-	serializers: {
-		req: (req) => ({
-			method: req.method,
-			url: req.url,
-			body: req.raw.body,
-			query: req.query,
-			params: req.params,
-			headers: req.headers,
-			host: req.headers.host,
-		}),
-	},
-	enabled: true,
+  logger: logger,
+  autoLogging: true,
+  serializers: {
+    req: (req) => ({
+      method: req.method,
+      url: req.url,
+      body: req.raw.body,
+      query: req.query,
+      params: req.params,
+      headers: req.headers,
+      host: req.headers.host,
+    }),
+  },
+  enabled: true,
 });
 
 const server = express();
 
 server.use(express.json());
 server.use(
-	cors({
-		origin: ["*"],
-	}),
+  cors({
+    origin: ["*"],
+  }),
 );
 server.use(loggerMiddleware);
 server.use(routes);
