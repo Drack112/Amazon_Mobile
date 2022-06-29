@@ -10,6 +10,7 @@ routes.get("/api", (request: Request, response: Response) => {
 });
 
 routes.post("/api/users/signup", userController.createUser);
+routes.post("/api/users/login", userController.login);
 routes.get("/api/users", userController.getUsers);
 
 export default routes;

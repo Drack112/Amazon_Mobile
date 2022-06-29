@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { User } from "../models/user";
 import * as bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 class UserController {
 	async createUser(req: Request, res: Response) {
@@ -10,7 +11,7 @@ class UserController {
 
 			if (!name || !email || !password) {
 				return res.status(400).json({
-					message: "Some field's are incomplete, check your data!",
+					msg: "Some field's are incomplete, check your data!",
 				});
 			}
 
@@ -27,6 +28,31 @@ class UserController {
 
 			await user.save();
 			return res.status(201).json(user);
+		} catch (error: any) {
+			return res.status(500).json({ error: error.message });
+		}
+	}
+
+	async login(req: Request, res: Response) {
+		try {
+			const { email, password } = req.body;
+			const user = await User.findOne({ email });
+
+			if (!user) {
+				return res.status(400).json({ msg: "User with this email does not exist" });
+			}
+
+			const isMatch = await bcrypt.compare(password, user.password);
+			if (!isMatch) {
+				return res.status(400).json({ msg: "Incorrect Password" });
+			}
+
+			const token = jwt.sign({ id: user._id }, "passwordKey");
+
+			return res.status(200).json({
+				token,
+				user,
+			});
 		} catch (error: any) {
 			return res.status(500).json({ error: error.message });
 		}
