@@ -114,6 +114,13 @@ class AuthService {
 
         if (response == true) {
           //get user Data
+          http.Response userRes = await http.get(
+            Uri.parse('$uri/api/user/:id'),
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+              'x-auth-token': token,
+            },
+          );
         }
       }
     } catch (e) {
