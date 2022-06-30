@@ -1,3 +1,4 @@
+import 'package:amazon_flutter/common/widgets/account_button.dart';
 import 'package:flutter/material.dart';
 
 class TopButtons extends StatefulWidget {
@@ -13,7 +14,17 @@ class _TopButtonsState extends State<TopButtons> {
     return Column(
       children: [
         Row(
-          children: [],
+          children: [
+            AccountButton(text: "Your Account", onTap: () {}),
+            AccountButton(text: "Turn Seller", onTap: () {}),
+          ],
+        ),
+        const SizedBox(height: 10),
+        Row(
+          children: [
+            AccountButton(text: "Log Out", onTap: () {}),
+            AccountButton(text: "Your wish list", onTap: () {}),
+          ],
         )
       ],
     );
