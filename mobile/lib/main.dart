@@ -1,4 +1,5 @@
 import 'package:amazon_flutter/features/screens/auth_screen.dart';
+import 'package:amazon_flutter/features/screens/home_screen.dart';
 import 'package:amazon_flutter/features/services/auth_service.dart';
 import 'package:amazon_flutter/providers/user_provider.dart';
 import 'package:amazon_flutter/router.dart';
@@ -32,6 +33,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+    authService.getUserData(context: context);
   }
 
   @override
@@ -51,7 +53,9 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
       onGenerateRoute: (settings) => generateRoute(settings),
-      home: const AuthScreen(),
+      home: Provider.of<UserProvider>(context).user.token.isNotEmpty
+          ? const HomeScreen()
+          : const AuthScreen(),
     );
   }
 }

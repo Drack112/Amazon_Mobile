@@ -121,6 +121,9 @@ class AuthService {
               'x-auth-token': token,
             },
           );
+
+          var userProvider = Provider.of<UserProvider>(context, listen: false);
+          userProvider.setUser(userRes.body);
         }
       }
     } catch (e) {
