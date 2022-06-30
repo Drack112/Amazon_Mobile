@@ -28,8 +28,8 @@ class AuthController {
 
       await user.save();
       return res.status(201).json(user);
-    } catch (error: any) {
-      return res.status(500).json({ error: error.message });
+    } catch (error) {
+      return res.status(500).json(error);
     }
   }
 
@@ -54,8 +54,8 @@ class AuthController {
       });
 
       return res.status(200).json({ token, ...user.toObject() });
-    } catch (error: any) {
-      return res.status(500).json({ error: error.message });
+    } catch (error) {
+      return res.status(500).json(error);
     }
   }
 
@@ -69,16 +69,32 @@ class AuthController {
 
       const user = await User.findOne({ verified });
       if (!user) return res.status(401).json(false);
+
       return res.status(200).json(true);
-    } catch (error: any) {
-      return res.status(500).json({ error: error.message });
+    } catch (error) {
+      return res.status(500).json(error);
     }
   }
 
+  async getUserData(req: Request, res: Response) {
+    try {
+      const id = req.params.id;
+
+      const user = await User.findById(id);
+      if (!user) return res.status(401).json(false);
+
+      return res.status(200).json({ ...user?.toObject() });
+    } catch (error) {
+      return res.status(500).json(error);
+    }
+  }
+
+  /*
   async getUsers(req: Request, res: Response) {
     const users = await User.find().sort("-createdAt").exec();
     return res.status(200).json(users);
   }
+  */
 }
 
 export default AuthController;
