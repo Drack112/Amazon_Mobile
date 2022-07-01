@@ -1,35 +1,54 @@
 version: "3"
 
 services:
- db:
-  image: mongo:latest
-  container_name: mongo-server
-  environment:
-   MONGO_INITDB_DATABASE: ${MONGO_DB}
-   MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
-   MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
-  ports:
-   - 27017:27017
-  networks:
-   - mongo-compose-network
-  env_file:
-   - ./.env
+  db:
+    image: mongo:latest
+    container_name: mongo-server
+    environment:
+      MONGO_INITDB_DATABASE: ${MONGO_DB}
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+    ports:
+      - 27017:27017
+    networks:
+      - mongo-compose-network
+    env_file:
+      - ./.env
 
- app:
-  build: .
-  container_name: backend-express
-  volumes:
-   - .:/home/node/app
-   - ./node_modules:/home/node/app/node_modules
-  depends_on:
-   - db
-  ports:
-   - 3000:3000
-  networks:
-   - mongo-compose-network
-  env_file:
-   - ./.env
+  mongo-express:
+    image: mongo-express
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_BASICAUTH_USERNAME: ${MONGO_USER}
+      ME_CONFIG_BASICAUTH_PASSWORD: ${MONGO_PASSWORD}
+      ME_CONFIG_MONGODB_PORT: 27017
+      ME_CONFIG_MONGODB_SERVER: db
+      ME_CONFIG_MONGODB_ENABLE_ADMIN: "true"
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_USER}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_PASSWORD}
+    links:
+      - db
+    networks:
+      - mongo-compose-network
+    env_file:
+      - ./.env
+
+  app:
+    build: .
+    container_name: backend-express
+    volumes:
+      - .:/home/node/app
+      - ./node_modules:/home/node/app/node_modules
+    depends_on:
+      - db
+    ports:
+      - 3000:3000
+    networks:
+      - mongo-compose-network
+    env_file:
+      - ./.env
 
 networks:
- mongo-compose-network:
-  driver: bridge
+  mongo-compose-network:
+    driver: bridge
