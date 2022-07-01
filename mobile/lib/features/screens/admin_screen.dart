@@ -1,6 +1,4 @@
-import 'package:amazon_flutter/features/screens/account_screen.dart';
-import 'package:amazon_flutter/features/screens/home_screen.dart';
-import 'package:badges/badges.dart';
+import 'package:amazon_flutter/features/screens/posts_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants/global_variables.dart';
@@ -18,9 +16,7 @@ class _AdminScreenState extends State<AdminScreen> {
   double bottomBarBorderWidth = 5;
 
   List<Widget> pages = [
-    const Center(
-      child: Text("Posts Page"),
-    ),
+    const PostsScreen(),
     const Center(
       child: Text("Analytics Page"),
     ),
